@@ -75,7 +75,7 @@
   - 编写命令路由的单元测试
   - _Requirements: 2.1, 2.2, 2.3, 4.1, 4.2, 4.3_
 
-- [ ] 8. 实现主 Bot Handler
+- [x] 8. 实现主 Bot Handler
 
   - 创建 TelegramBot 类
   - 配置 Telegraf 实例
