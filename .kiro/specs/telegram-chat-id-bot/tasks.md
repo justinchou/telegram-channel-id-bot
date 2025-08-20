@@ -15,7 +15,7 @@
   - 实现 Telegraf Context 扩展类型
   - _Requirements: 2.1, 3.1, 3.2, 3.3_
 
-- [ ] 3. 实现日志记录和错误处理基础设施
+- [x] 3. 实现日志记录和错误处理基础设施
 
   - 配置 Winston 日志记录器
   - 实现 ErrorHandler 类
@@ -23,7 +23,7 @@
   - 编写错误处理的单元测试
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 4. 实现 Chat Info Service 核心功能
+- [x] 4. 实现 Chat Info Service 核心功能
 
   - 创建 ChatInfoService 类
   - 实现 getChatId 方法
