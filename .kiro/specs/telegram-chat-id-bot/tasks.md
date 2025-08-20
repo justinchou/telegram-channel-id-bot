@@ -32,7 +32,7 @@
   - 编写 ChatInfoService 的单元测试
   - _Requirements: 2.1, 2.2, 2.3, 3.1, 3.2, 3.3_
 
-- [ ] 5. 实现 Help Service 功能
+- [x] 5. 实现 Help Service 功能
 
   - 创建 HelpService 类
   - 实现 getHelpMessage 方法
