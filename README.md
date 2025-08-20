@@ -35,7 +35,8 @@ A lightweight Telegram bot that helps you get chat ID information from groups, s
    ```
 
 4. Edit `.env` file and add your bot token:
-   ```
+
+   ```env
    TELEGRAM_BOT_TOKEN=your_bot_token_here
    ```
 
