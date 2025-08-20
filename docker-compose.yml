@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  telegram-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: telegram-channel-id-bot
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('Health check passed')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service
+  telegram-bot-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: telegram-channel-id-bot-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env.development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    profiles:
+      - dev
+
+networks:
+  bot-network:
+    driver: bridge

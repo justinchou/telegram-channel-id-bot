@@ -215,7 +215,7 @@ export class RetryHandler {
 ## Project Structure
 
 ```
-telegram-chat-id-bot/
+telegram-channel-id-bot/
 ├── src/
 │   ├── bot/
 │   │   └── bot-handler.ts

@@ -1,0 +1,28 @@
+# Development Dockerfile
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install development tools
+RUN apk add --no-cache git
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S botuser -u 1001
+
+# Copy package files
+COPY package.json yarn.lock ./
+
+# Install all dependencies (including dev dependencies)
+RUN yarn install --frozen-lockfile
+
+# Change ownership to non-root user
+RUN chown -R botuser:nodejs /app
+USER botuser
+
+# Expose port
+EXPOSE 3000
+
+# Start in development mode with hot reload
+CMD ["yarn", "dev:watch"]
