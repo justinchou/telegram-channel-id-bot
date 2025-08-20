@@ -102,6 +102,9 @@ export class TelegramBot {
 
       logger.info("Stopping bot gracefully...");
 
+      // Stop command router and cleanup security resources
+      this.commandRouter.stop();
+
       // Stop the bot
       this.bot.stop();
       this.isRunning = false;
@@ -136,6 +139,13 @@ export class TelegramBot {
       });
       throw error;
     }
+  }
+
+  /**
+   * Get security statistics from command router
+   */
+  getSecurityStatistics() {
+    return this.commandRouter.getSecurityStatistics();
   }
 
   /**
@@ -186,8 +196,7 @@ export class TelegramBot {
       }
     });
 
-    // Add command router middleware with rate limiting
-    this.commandRouter.addMiddleware(CommandRouter.createRateLimitMiddleware(10, 60000));
+    // Add command router middleware with enhanced security
     this.commandRouter.addMiddleware(CommandRouter.createLoggingMiddleware());
 
     // Route all text messages through command router

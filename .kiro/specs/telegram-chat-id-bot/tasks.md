@@ -110,7 +110,7 @@
   - 编写 README 文档
   - _Requirements: 5.1, 5.2_
 
-- [ ] 12. 实现 Bot 权限和安全检查
+- [x] 12. 实现 Bot 权限和安全检查
   - 添加 Bot 权限验证逻辑
   - 实现聊天类型检查
   - 添加 Rate limiting 保护

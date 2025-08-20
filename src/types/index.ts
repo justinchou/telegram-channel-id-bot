@@ -2,28 +2,32 @@
 
 // Temporary type definition for Context to avoid telegraf dependency issues
 export interface TelegrafContext {
-  chat?: {
-    id: number;
-    type: string;
-    title?: string;
-    username?: string;
-  } | undefined;
+  chat?:
+    | {
+        id: number;
+        type: string;
+        title?: string;
+        username?: string;
+      }
+    | undefined;
   from?: {
     id: number;
     is_bot: boolean;
     first_name: string;
     username?: string;
   };
-  message?: {
-    message_id: number;
-    date: number;
-    chat: {
-      id: number;
-      type: string;
-    };
-    text?: string;
-    new_chat_members?: any[];
-  } | undefined;
+  message?:
+    | {
+        message_id: number;
+        date: number;
+        chat: {
+          id: number;
+          type: string;
+        };
+        text?: string;
+        new_chat_members?: any[];
+      }
+    | undefined;
   reply: (text: string, extra?: any) => Promise<any>;
   myChatMember?: {
     new_chat_member: { status: string };
@@ -98,6 +102,101 @@ export interface ErrorContext {
   userId?: number | undefined;
   /** Additional context data */
   metadata?: Record<string, any>;
+}
+
+/**
+ * Security event types for logging and monitoring
+ */
+export type SecurityEventType =
+  | "rate_limit_exceeded"
+  | "invalid_chat_type"
+  | "insufficient_bot_permissions"
+  | "admin_permission_denied"
+  | "command_allowed"
+  | "security_middleware_error"
+  | "permission_check_failed"
+  | "bot_blocked"
+  | "unauthorized_access";
+
+/**
+ * Security context information for logging
+ */
+export interface SecurityContext {
+  /** Type of security event */
+  event: SecurityEventType;
+  /** Chat ID where event occurred */
+  chatId?: number;
+  /** User ID involved in the event */
+  userId?: number;
+  /** Command that triggered the event */
+  command?: string;
+  /** Additional event-specific data */
+  metadata?: Record<string, any>;
+  /** Timestamp of the event */
+  timestamp: string;
+}
+
+/**
+ * Bot permission status information
+ */
+export interface BotPermissionStatus {
+  /** Whether bot has required permissions */
+  hasPermission: boolean;
+  /** Bot's status in the chat */
+  status?: "member" | "administrator" | "creator" | "left" | "kicked" | "restricted";
+  /** Specific permissions the bot has */
+  permissions?: {
+    canSendMessages?: boolean;
+    canDeleteMessages?: boolean;
+    canRestrictMembers?: boolean;
+    canPromoteMembers?: boolean;
+    canChangeInfo?: boolean;
+    canInviteUsers?: boolean;
+    canPinMessages?: boolean;
+  };
+  /** Error message if permission check failed */
+  error?: string;
+}
+
+/**
+ * User permission information
+ */
+export interface UserPermissionInfo {
+  /** Whether user is admin */
+  isAdmin: boolean;
+  /** User's status in the chat */
+  status?: "creator" | "administrator" | "member" | "restricted" | "left" | "kicked";
+  /** Specific admin permissions */
+  adminPermissions?: {
+    canDeleteMessages?: boolean;
+    canRestrictMembers?: boolean;
+    canPromoteMembers?: boolean;
+    canChangeInfo?: boolean;
+    canInviteUsers?: boolean;
+    canPinMessages?: boolean;
+  };
+}
+
+/**
+ * Rate limit violation information
+ */
+export interface RateLimitViolation {
+  /** User ID that violated the limit */
+  userId: number;
+  /** Chat ID where violation occurred */
+  chatId?: number;
+  /** Type of rate limit violated */
+  limitType: "user" | "chat" | "global";
+  /** Number of requests made */
+  requestCount: number;
+  /** Maximum allowed requests */
+  maxRequests: number;
+  /** Time window for the limit */
+  timeWindow: number;
+  /** Remaining time until reset */
+  remainingTime: number;
+  /** Whether penalty was applied */
+  penaltyApplied: boolean;
 }
 
 /**

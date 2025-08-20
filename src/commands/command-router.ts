@@ -1,5 +1,6 @@
 import { TelegrafContext, ErrorContext } from "../types";
 import { ErrorHandler } from "../utils/error-handler";
+import { SecurityMiddleware } from "../middleware/security-middleware";
 import { ChatIdCommandHandler } from "./chatid";
 import { InfoCommandHandler } from "./info";
 import { HelpCommandHandler } from "./help";
@@ -81,18 +82,23 @@ export class CommandRouter {
   private commands: Map<string, CommandRegistration> = new Map();
   private middlewares: CommandMiddleware[] = [];
   private errorHandler: ErrorHandler;
+  private securityMiddleware: SecurityMiddleware;
   private chatIdHandler: ChatIdCommandHandler;
   private infoHandler: InfoCommandHandler;
   private helpHandler: HelpCommandHandler;
 
   constructor() {
     this.errorHandler = new ErrorHandler();
+    this.securityMiddleware = new SecurityMiddleware();
     this.chatIdHandler = new ChatIdCommandHandler();
     this.infoHandler = new InfoCommandHandler();
     this.helpHandler = new HelpCommandHandler();
 
     // Register default commands
     this.registerDefaultCommands();
+
+    // Add default security middleware
+    this.addDefaultSecurityMiddleware();
   }
 
   /**
@@ -443,5 +449,50 @@ export class CommandRouter {
 
       await next();
     };
+  }
+
+  /**
+   * Add default security middleware to the router
+   */
+  private addDefaultSecurityMiddleware(): void {
+    // Add basic security middleware with default configuration
+    this.addMiddleware(
+      this.securityMiddleware.createMiddleware({
+        rateLimiting: {
+          maxRequests: 10,
+          timeWindow: 60000, // 1 minute
+          penaltyTime: 300000, // 5 minutes
+          useProgressivePenalty: true,
+        },
+        checkBotPermissions: true,
+        validateChatTypes: true,
+        allowedChatTypes: ["private", "group", "supergroup", "channel"],
+        requireAdmin: false,
+        logSecurityEvents: true,
+      })
+    );
+  }
+
+  /**
+   * Add security middleware with custom configuration
+   * @param config - Security middleware configuration
+   */
+  addSecurityMiddleware(config?: Partial<import("../middleware/security-middleware").SecurityMiddlewareConfig>): void {
+    this.addMiddleware(this.securityMiddleware.createMiddleware(config));
+  }
+
+  /**
+   * Get security statistics
+   * @returns Security middleware statistics
+   */
+  getSecurityStatistics() {
+    return this.securityMiddleware.getStatistics();
+  }
+
+  /**
+   * Stop the command router and cleanup resources
+   */
+  stop(): void {
+    this.securityMiddleware.stop();
   }
 }
