@@ -1,5 +1,5 @@
 import winston from "winston";
-import logger, { createChildLogger, LogLevel } from "../../src/utils/logger";
+import { createChildLogger, LogLevel } from "../../src/utils/logger";
 
 // Mock winston to avoid actual file operations during tests
 jest.mock("winston", () => {

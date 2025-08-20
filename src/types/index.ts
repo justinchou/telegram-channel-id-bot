@@ -7,7 +7,7 @@ export interface TelegrafContext {
     type: string;
     title?: string;
     username?: string;
-  };
+  } | undefined;
   from?: {
     id: number;
     is_bot: boolean;
@@ -23,7 +23,7 @@ export interface TelegrafContext {
     };
     text?: string;
     new_chat_members?: any[];
-  };
+  } | undefined;
   reply: (text: string, extra?: any) => Promise<any>;
   myChatMember?: {
     new_chat_member: { status: string };
@@ -98,4 +98,14 @@ export interface ErrorContext {
   userId?: number | undefined;
   /** Additional context data */
   metadata?: Record<string, any>;
+}
+
+/**
+ * NodeJS .ProcessEnv interface for environment variables
+ * Extends the standard NodeJS.ProcessEnv with custom NODE_ENV property
+ */
+declare namespace NodeJS {
+  interface ProcessEnv {
+    readonly NODE_ENV: string;
+  }
 }

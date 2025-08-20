@@ -31,14 +31,20 @@ jest.mock("../../src/utils/logger", () => ({
 }));
 
 // Mock command router
-jest.mock("../../src/commands/command-router", () => ({
-  CommandRouter: jest.fn().mockImplementation(() => ({
+jest.mock("../../src/commands/command-router", () => {
+  const mockCommandRouter = jest.fn().mockImplementation(() => ({
     addMiddleware: jest.fn(),
     routeCommand: jest.fn(),
-    createRateLimitMiddleware: jest.fn(),
-    createLoggingMiddleware: jest.fn(),
-  })),
-}));
+  }));
+
+  // Add static methods to the mock constructor
+  (mockCommandRouter as any).createRateLimitMiddleware = jest.fn().mockReturnValue(jest.fn());
+  (mockCommandRouter as any).createLoggingMiddleware = jest.fn().mockReturnValue(jest.fn());
+
+  return {
+    CommandRouter: mockCommandRouter,
+  };
+});
 
 // Mock error handler
 jest.mock("../../src/utils/error-handler", () => ({

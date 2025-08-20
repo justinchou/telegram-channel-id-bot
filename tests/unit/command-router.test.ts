@@ -197,7 +197,7 @@ describe("CommandRouter", () => {
     it("should execute middleware before command handler", async () => {
       const executionOrder: string[] = [];
 
-      const middleware: CommandMiddleware = async (ctx, next) => {
+      const middleware: CommandMiddleware = async (_ctx, next) => {
         executionOrder.push("middleware");
         await next();
       };
@@ -225,12 +225,12 @@ describe("CommandRouter", () => {
     it("should execute multiple middlewares in order", async () => {
       const executionOrder: string[] = [];
 
-      const middleware1: CommandMiddleware = async (ctx, next) => {
+      const middleware1: CommandMiddleware = async (_ctx, next) => {
         executionOrder.push("middleware1");
         await next();
       };
 
-      const middleware2: CommandMiddleware = async (ctx, next) => {
+      const middleware2: CommandMiddleware = async (_ctx, next) => {
         executionOrder.push("middleware2");
         await next();
       };
@@ -258,7 +258,7 @@ describe("CommandRouter", () => {
     it("should stop execution if middleware doesn't call next", async () => {
       const mockHandler = jest.fn();
 
-      const blockingMiddleware: CommandMiddleware = async (ctx, next) => {
+      const blockingMiddleware: CommandMiddleware = async (ctx, _next) => {
         // Don't call next() - this should stop execution
         await ctx.reply("Blocked by middleware");
       };
@@ -451,7 +451,7 @@ describe("CommandRouter", () => {
     });
 
     it("should handle errors in middleware execution", async () => {
-      const errorMiddleware: CommandMiddleware = async (ctx, next) => {
+      const errorMiddleware: CommandMiddleware = async (_ctx, _next) => {
         throw new Error("Middleware error");
       };
 
