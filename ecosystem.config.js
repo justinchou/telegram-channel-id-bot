@@ -134,7 +134,7 @@ module.exports = {
   //     health_check_grace_period: 2000,
   //     kill_timeout: 4000,
   //   },
-  // ],
+  ],
 
   // // Deployment configuration
   // deploy: {
