@@ -25,27 +25,27 @@ services:
       retries: 3
       start_period: 40s
 
-  # Development service
-  telegram-bot-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    container_name: telegram-channel-id-bot-dev
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env.development
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - ./logs:/app/logs
-    networks:
-      - bot-network
-    profiles:
-      - dev
+  # # Development service
+  # telegram-bot-dev:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   container_name: telegram-channel-id-bot-dev
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=development
+  #   env_file:
+  #     - .env.development
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #     - ./logs:/app/logs
+  #   networks:
+  #     - bot-network
+  #   profiles:
+  #     - dev
 
 networks:
   bot-network:

@@ -174,6 +174,48 @@ yarn test:watch
 
 ## Deployment
 
+### PM2 Deployment (Recommended)
+
+PM2 is a production process manager for Node.js applications with built-in load balancer, monitoring, and auto-restart capabilities.
+
+#### Quick Setup
+
+```bash
+# Install and setup PM2
+./scripts/pm2-setup.sh
+
+# Configure your bot token in environment files
+# Edit .env.production, .env.development, .env.staging
+
+# Start production bot
+yarn pm2:start
+
+# Check status
+yarn pm2:status
+```
+
+#### PM2 Commands
+
+```bash
+# Management
+yarn pm2:start              # Start production bot
+yarn pm2:start:dev          # Start development bot
+yarn pm2:stop               # Stop production bot
+yarn pm2:restart            # Restart production bot
+yarn pm2:status             # Show status
+
+# Deployment
+yarn pm2:deploy             # Deploy to production
+yarn pm2:deploy:staging     # Deploy to staging
+yarn pm2:health             # Health check
+
+# Monitoring
+yarn pm2:logs               # View logs
+yarn pm2:monitor            # Open monitoring interface
+```
+
+For detailed PM2 usage, see [PM2 Guide](docs/PM2_GUIDE.md).
+
 ### Local Deployment
 
 ```bash
