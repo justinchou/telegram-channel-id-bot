@@ -5,11 +5,14 @@ export interface TelegrafContext {
   chat?: {
     id: number;
     type: string;
+    title?: string;
+    username?: string;
   };
   from?: {
     id: number;
     is_bot: boolean;
     first_name: string;
+    username?: string;
   };
   message?: {
     message_id: number;
@@ -18,8 +21,20 @@ export interface TelegrafContext {
       id: number;
       type: string;
     };
+    text?: string;
+    new_chat_members?: any[];
   };
   reply: (text: string, extra?: any) => Promise<any>;
+  myChatMember?: {
+    new_chat_member: { status: string };
+    old_chat_member: { status: string };
+  };
+  inlineQuery?: {
+    id: string;
+    query: string;
+  };
+  answerInlineQuery?: (results: any[]) => Promise<any>;
+  updateType?: string;
 }
 
 /**

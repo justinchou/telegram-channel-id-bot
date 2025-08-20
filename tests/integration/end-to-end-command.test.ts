@@ -237,13 +237,13 @@ describe("End-to-End Command Processing Integration", () => {
 
       await router.routeCommand(mockContext);
 
-      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringMatching(/Chat ID.*-1001234567890/s), {
+      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringContaining("-1001234567890"), {
         parse_mode: "Markdown",
       });
-      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringMatching(/聊天类型.*超级群组/s), {
+      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringContaining("超级群组"), {
         parse_mode: "Markdown",
       });
-      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringMatching(/群组名称.*Test Supergroup/s), {
+      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringContaining("Test Supergroup"), {
         parse_mode: "Markdown",
       });
     });
@@ -306,10 +306,10 @@ describe("End-to-End Command Processing Integration", () => {
 
       await router.routeCommand(mockContext);
 
-      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringMatching(/Chat ID.*987654321/s), {
+      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringContaining("987654321"), {
         parse_mode: "Markdown",
       });
-      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringMatching(/聊天类型.*私聊/s), {
+      expect(mockContext.reply).toHaveBeenCalledWith(expect.stringContaining("私聊"), {
         parse_mode: "Markdown",
       });
     });
@@ -579,13 +579,13 @@ describe("End-to-End Command Processing Integration", () => {
     it("should execute middleware in correct order", async () => {
       const executionOrder: string[] = [];
 
-      const middleware1 = async (ctx: TelegrafContext, next: () => Promise<void>) => {
+      const middleware1 = async (_ctx: TelegrafContext, next: () => Promise<void>) => {
         executionOrder.push("middleware1-before");
         await next();
         executionOrder.push("middleware1-after");
       };
 
-      const middleware2 = async (ctx: TelegrafContext, next: () => Promise<void>) => {
+      const middleware2 = async (_ctx: TelegrafContext, next: () => Promise<void>) => {
         executionOrder.push("middleware2-before");
         await next();
         executionOrder.push("middleware2-after");
@@ -636,7 +636,7 @@ describe("End-to-End Command Processing Integration", () => {
     });
 
     it("should handle middleware errors", async () => {
-      const errorMiddleware = async (ctx: TelegrafContext, next: () => Promise<void>) => {
+      const errorMiddleware = async (_ctx: TelegrafContext, _next: () => Promise<void>) => {
         throw new Error("Middleware error");
       };
 

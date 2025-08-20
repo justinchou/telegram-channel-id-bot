@@ -227,7 +227,7 @@ describe("TelegramBot Integration Tests", () => {
 
     it("should handle bot being added to group via my_chat_member", async () => {
       // Get the my_chat_member handler
-      const myChatMemberHandler = mockTelegraf.on.mock.calls.find((call) => call[0] === "my_chat_member")?.[1];
+      const myChatMemberHandler = mockTelegraf.on.mock.calls.find((call: any) => call[0] === "my_chat_member")?.[1];
 
       expect(myChatMemberHandler).toBeDefined();
 
@@ -258,7 +258,7 @@ describe("TelegramBot Integration Tests", () => {
       };
 
       // Get the new_chat_members handler
-      const newMembersHandler = mockTelegraf.on.mock.calls.find((call) => call[0] === "new_chat_members")?.[1];
+      const newMembersHandler = mockTelegraf.on.mock.calls.find((call: any) => call[0] === "new_chat_members")?.[1];
 
       expect(newMembersHandler).toBeDefined();
 
@@ -275,7 +275,7 @@ describe("TelegramBot Integration Tests", () => {
       // Mock permission error
       mockContext.reply = jest.fn().mockRejectedValue(new Error("forbidden: bot was blocked by the user"));
 
-      const myChatMemberHandler = mockTelegraf.on.mock.calls.find((call) => call[0] === "my_chat_member")?.[1];
+      const myChatMemberHandler = mockTelegraf.on.mock.calls.find((call: any) => call[0] === "my_chat_member")?.[1];
 
       // Should not throw error even if reply fails
       await expect(myChatMemberHandler(mockContext)).resolves.not.toThrow();
@@ -320,7 +320,7 @@ describe("TelegramBot Integration Tests", () => {
       };
 
       // Get the inline_query handler
-      const inlineQueryHandler = mockTelegraf.on.mock.calls.find((call) => call[0] === "inline_query")?.[1];
+      const inlineQueryHandler = mockTelegraf.on.mock.calls.find((call: any) => call[0] === "inline_query")?.[1];
 
       expect(inlineQueryHandler).toBeDefined();
 
@@ -342,7 +342,7 @@ describe("TelegramBot Integration Tests", () => {
         answerInlineQuery: jest.fn().mockRejectedValue(new Error("Query failed")),
       };
 
-      const inlineQueryHandler = mockTelegraf.on.mock.calls.find((call) => call[0] === "inline_query")?.[1];
+      const inlineQueryHandler = mockTelegraf.on.mock.calls.find((call: any) => call[0] === "inline_query")?.[1];
 
       // Should not throw error even if inline query fails
       await expect(inlineQueryHandler(mockInlineContext)).resolves.not.toThrow();
